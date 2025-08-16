@@ -1,6 +1,7 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AppLayout } from "./Components/layout/app-layout";
 import {ThemeProvider} from './Components/themeProvider'
+import './App.css'
 
 const App = () => {
   return (
