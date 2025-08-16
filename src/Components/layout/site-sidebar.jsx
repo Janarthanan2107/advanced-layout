@@ -58,6 +58,11 @@ export function SiteSidebar({ menuItems }) {
 
   const toggleSubmenu = (label, isOpen) => {
     setOpenSubmenus(prev => ({ ...prev, [label]: isOpen }));
+    if (isOpen) {
+      setOpenSubmenus({ [label]: true });
+    } else {
+      setOpenSubmenus(prev => ({ ...prev, [label]: false }));
+    }
   };
 
   const toggleTheme = () => {
@@ -130,7 +135,7 @@ export function SiteSidebar({ menuItems }) {
               </div>
             </CollapsibleTrigger>
             <CollapsibleContent asChild>
-              <SidebarMenuSub data-state={openSubmenus[item.label] ? 'open' : 'closed'}>
+              <SidebarMenuSub data-state={openSubmenus[item.label] ? 'open' : 'closed'} className="mt-2">
                 {item.subItems.map((subItem) => (
                   <SidebarMenuSubItem key={subItem.label}>
                     <SidebarMenuSubButton asChild isActive={location.pathname === subItem.href}>
