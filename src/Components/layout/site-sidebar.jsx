@@ -29,7 +29,8 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { Button } from '../ui/button';
-import { ChevronRight, Gem } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
+import { Fingerprint } from 'lucide-react';
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from '../themeProvider';
 
@@ -57,7 +58,6 @@ export function SiteSidebar({ menuItems }) {
   }, [location.pathname, menuItems, isCollapsed]);
 
   const toggleSubmenu = (label, isOpen) => {
-    setOpenSubmenus(prev => ({ ...prev, [label]: isOpen }));
     if (isOpen) {
       setOpenSubmenus({ [label]: true });
     } else {
@@ -77,6 +77,7 @@ export function SiteSidebar({ menuItems }) {
       const isActive = (item.href ? location.pathname.startsWith(item.href) &&
         (item.href !== '/dashboard' || location.pathname === '/dashboard') : false) ||
         (item.subItems && item.subItems.some(sub => location.pathname.startsWith(sub.href)));
+      const isSubmenuOpen = openSubmenus[item.label] || false;
 
       if (item.subItems && isCollapsed) {
         return (
@@ -85,13 +86,14 @@ export function SiteSidebar({ menuItems }) {
               <DropdownMenuTrigger asChild>
                 <div className="relative">
                   <SidebarMenuButton
+                    isActive={isActive}
                     tooltip={item.label}
                     className="w-full justify-center"
                   >
                     {item.icon && <item.icon className="h-6 w-6" />}
                     <span className="sr-only">{item.label}</span>
                   </SidebarMenuButton>
-                  {isActive && <div className="absolute left-1 top-1/2 -translate-y-1/2 h-6 w-1 bg-primary rounded-r-lg" />}
+                  {/* {isActive && <div className="absolute left-1 top-1/2 -translate-y-1/2 h-6 w-1 bg-primary rounded-r-lg" />} */}
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent side="right" align="start" sideOffset={10}>
@@ -115,7 +117,7 @@ export function SiteSidebar({ menuItems }) {
       return item.subItems ? (
         <SidebarMenuItem key={item.label}>
           <Collapsible
-            open={openSubmenus[item.label] || false}
+            open={isSubmenuOpen}
             onOpenChange={(isOpen) => toggleSubmenu(item.label, isOpen)}
           >
             <CollapsibleTrigger asChild>
@@ -129,13 +131,16 @@ export function SiteSidebar({ menuItems }) {
                     {item.icon && <item.icon className="h-5 w-5" />}
                     <span className="truncate group-data-[collapsible=icon]:hidden">{item.label}</span>
                   </div>
-                  <ChevronRight className="h-4 w-4 shrink-0 transition-transform duration-200 group-data-[collapsible=icon]:hidden data-[state=open]:rotate-90" />
+                  <ChevronRight
+                    className="h-4 w-4 shrink-0 transition-transform duration-300 group-data-[collapsible=icon]:hidden data-[state=open]:rotate-90"
+                    data-state={isSubmenuOpen ? 'open' : 'closed'}
+                  />
                 </SidebarMenuButton>
-                {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 h-6 w-1 bg-primary rounded-r-lg" />}
+                {/* {isActive && <div className="absolute left-1 top-1/2 -translate-y-1/2 h-6 w-1 bg-primary rounded-r-lg" />} */}
               </div>
             </CollapsibleTrigger>
             <CollapsibleContent asChild>
-              <SidebarMenuSub data-state={openSubmenus[item.label] ? 'open' : 'closed'} className="mt-2">
+              <SidebarMenuSub data-state={openSubmenus[item.label] ? 'open' : 'closed'} className="mt-2 overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
                 {item.subItems.map((subItem) => (
                   <SidebarMenuSubItem key={subItem.label}>
                     <SidebarMenuSubButton asChild isActive={location.pathname === subItem.href}>
@@ -158,7 +163,7 @@ export function SiteSidebar({ menuItems }) {
                 <span className="truncate group-data-[collapsible=icon]:hidden">{item.label}</span>
               </Link>
             </SidebarMenuButton>
-            {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 h-6 w-1 bg-primary rounded-r-lg group-data-[collapsible=icon]:left-1" />}
+            {/* {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 h-6 w-1 bg-primary rounded-r-lg group-data-[collapsible=icon]:left-0" />} */}
           </div>
         </SidebarMenuItem>
       );
@@ -169,9 +174,9 @@ export function SiteSidebar({ menuItems }) {
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <div className="flex items-center gap-2">
-          <Gem className="h-7 w-7 text-primary" />
+          <Fingerprint className="h-7 w-7 text-primary" />
           <span className="font-semibold text-xl group-data-[collapsible=icon]:hidden">
-            NavigatePro
+            HrBuddie
           </span>
         </div>
       </SidebarHeader>
