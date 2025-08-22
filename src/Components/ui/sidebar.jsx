@@ -1,7 +1,6 @@
 "use client"
 
 import React from "react"
-import { Slot } from "@radix-ui/react-slot"
 import { cva } from "class-variance-authority"
 import { PanelLeft } from "lucide-react"
 
@@ -12,12 +11,7 @@ import { Input } from "./input.jsx"
 import { Separator } from "./separator.jsx"
 import { Sheet, SheetContent } from "./sheet.jsx"
 import { Skeleton } from "./skeleton.jsx"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "./tooltip.jsx"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./tooltip.jsx"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -54,7 +48,7 @@ const SidebarProvider = React.forwardRef(
     const [openMobile, setOpenMobile] = React.useState(false)
     const [_open, _setOpen] = React.useState(defaultOpen)
     const open = openProp ?? _open
-    
+
     const setOpen = React.useCallback(
       (value) => {
         const openState = typeof value === "function" ? value(open) : value
@@ -125,6 +119,18 @@ const SidebarProvider = React.forwardRef(
   }
 )
 SidebarProvider.displayName = "SidebarProvider"
+
+export const Slot = React.forwardRef(function Slot({ children, ...props }, ref) {
+  if (!React.isValidElement(children)) {
+    return null
+  }
+
+  return React.cloneElement(children, {
+    ...props,
+    ref,
+    className: [children.props.className, props.className].filter(Boolean).join(" "),
+  })
+})
 
 const Sidebar = React.forwardRef(
   (
@@ -516,7 +522,7 @@ const SidebarMenuAction = React.forwardRef(({ className, asChild = false, showOn
         "peer-data-[size=lg]/menu-button:top-2.5",
         "group-data-[collapsible=icon]:hidden",
         showOnHover &&
-          "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground md:opacity-0",
+        "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground md:opacity-0",
         className
       )}
       {...props}

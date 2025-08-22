@@ -48,22 +48,7 @@ export const useNavigation = () => {
     { label: 'Help', href: '/help', icon: LifeBuoy, isSecondary: true },
   ];
 
-  const userUsageData = {
-    'Dashboard': 15,
-    'Orders': 80,
-    'Customers': 50,
-    'Analytics': 95,
-    'Reports': 25,
-    'Settings': 10,
-    'Products': 60,
-    'Marketing': 30,
-    'Inventory': 70,
-    'Integrations': 20,
-    'Help': 5,
-  };
-
   return {
     navItems,
-    userUsageData,
   };
 };

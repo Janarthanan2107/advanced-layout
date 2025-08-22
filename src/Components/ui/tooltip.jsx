@@ -1,29 +1,106 @@
 "use client"
 
-import * as React from "react"
-import * as TooltipPrimitive from "@radix-ui/react-tooltip"
-
+import React, { createContext, useContext, useState, useRef } from "react"
 import { cn } from "../../lib/utils"
 
-const TooltipProvider = TooltipPrimitive.Provider
+// Context
+const TooltipContext = createContext()
 
-const Tooltip = TooltipPrimitive.Root
+// Provider (not really needed but keeping API consistent)
+const TooltipProvider = ({ children }) => {
+  return <>{children}</>
+}
 
-const TooltipTrigger = TooltipPrimitive.Trigger
+// Root
+const Tooltip = ({ children }) => {
+  const [open, setOpen] = useState(false)
+  const triggerRef = useRef(null)
 
-const TooltipContent = React.forwardRef(
-  ({ className, sideOffset = 4, ...props }, ref) => (
-    <TooltipPrimitive.Content
-      ref={ref}
-      sideOffset={sideOffset}
-      className={cn(
-        "z-50 overflow-hidden rounded-md border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-        className
-      )}
-      {...props}
-    />
+  return (
+    <TooltipContext.Provider value={{ open, setOpen, triggerRef }}>
+      {children}
+    </TooltipContext.Provider>
   )
+}
+
+// Trigger
+const TooltipTrigger = ({ children }) => {
+  const { setOpen, triggerRef } = useContext(TooltipContext)
+
+  return (
+    <span
+      ref={triggerRef}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+      onFocus={() => setOpen(true)}
+      onBlur={() => setOpen(false)}
+    // className="inline-flex"
+    >
+      {children}
+    </span>
+  )
+}
+
+// Content
+const TooltipContent = React.forwardRef(
+  ({ className, side = "top", sideOffset = 4, hidden, children }, ref) => {
+    const { open, triggerRef } = useContext(TooltipContext)
+    const [style, setStyle] = useState({})
+
+    React.useEffect(() => {
+      if (open && !hidden && triggerRef.current) {
+        const rect = triggerRef.current.getBoundingClientRect()
+        const pos = {}
+
+        switch (side) {
+          case "top":
+            pos.top = rect.top - sideOffset
+            pos.left = rect.left + rect.width / 2
+            break
+          case "bottom":
+            pos.top = rect.bottom + sideOffset
+            pos.left = rect.left + rect.width / 2
+            break
+          case "left":
+            pos.top = rect.top + rect.height / 2
+            pos.left = rect.left - sideOffset
+            break
+          case "right":
+            pos.top = rect.top + rect.height / 2
+            pos.left = rect.right + sideOffset
+            break
+        }
+
+        setStyle({
+          position: "fixed",
+          top: pos.top,
+          left: pos.left,
+          transform:
+            side === "top" || side === "bottom"
+              ? "translateX(-50%)"
+              : "translateY(-50%)",
+        })
+      }
+    }, [open, hidden, side, sideOffset, triggerRef])
+
+    if (!open || hidden) return null
+
+    return (
+      <div
+        ref={ref}
+        style={style}
+        className={cn(
+          "z-50 overflow-hidden rounded-md border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
+          className
+        )}
+      >
+        {children}
+      </div>
+    )
+  }
 )
-TooltipContent.displayName = TooltipPrimitive.Content.displayName
+
+
+TooltipContent.displayName = "TooltipContent"
 
 export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider }
