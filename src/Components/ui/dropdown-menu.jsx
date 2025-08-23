@@ -69,7 +69,7 @@ DropdownMenuTrigger.displayName = "DropdownMenuTrigger"
 
 // Content
 const DropdownMenuContent = React.forwardRef(
-  ({ children, className, side = "bottom", sideOffset = 4, ...props }, ref) => {
+  ({ children, className, side = "bottom", sideOffset = 4, ...props }, ref) => {    
     const { open, setOpen, triggerRef } = useDropdown()
 
     // ---- NEW: internal ref + merge with forwarded ref ----
@@ -149,7 +149,7 @@ const DropdownMenuContent = React.forwardRef(
         data-side={side}
         data-state={open ? "open" : "closed"}
         className={cn(
-          "fixed z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md",
+          "fixed z-50 min-w-[15rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md",
           "data-[state=open]:animate-in data-[state=closed]:animate-out",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -176,23 +176,30 @@ const DropdownMenuContent = React.forwardRef(
 DropdownMenuContent.displayName = "DropdownMenuContent"
 
 // Item
-const DropdownMenuItem = React.forwardRef(({ children, className, inset, ...props }, ref) => {
-  const { setOpen } = useDropdown()
-  return (
-    <div
-      ref={ref}
-      onClick={() => setOpen(false)}
-      className={cn(
-        "relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground",
-        inset && "pl-8",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </div>
-  )
-})
+const DropdownMenuItem = React.forwardRef(
+  ({ children, className, isActive, inset, ...props }, ref) => {
+    const { setOpen } = useDropdown()
+
+    return (
+      <div
+        ref={ref}
+        onClick={() => setOpen(false)}
+        className={cn(
+          " relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors",
+          inset && "pl-8",
+          isActive 
+            ? "bg-accent text-accent-foreground"  // active state
+            : "hover:bg-accent hover:text-accent-foreground", // normal hover
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
+)
+
 DropdownMenuItem.displayName = "DropdownMenuItem"
 
 // Checkbox Item

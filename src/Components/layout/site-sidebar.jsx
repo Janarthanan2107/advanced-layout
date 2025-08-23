@@ -90,19 +90,19 @@ export function SiteSidebar({ menuItems }) {
                     tooltip={item.label}
                     className="w-full justify-center"
                   >
-                    {item.icon && <item.icon className="h-6 w-6" />}
+                    {item.icon && <item.icon className="h-4 w-4" />}
                     <span className="sr-only">{item.label}</span>
                   </SidebarMenuButton>
                   {/* {isActive && <div className="absolute left-1 top-1/2 -translate-y-1/2 h-6 w-1 bg-primary rounded-r-lg" />} */}
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent side="right" align="start" sideOffset={10}>
-                <DropdownMenuItem asChild>
+                <DropdownMenuItem asChild className='hover:bg-white cursor-default'>
                   <span className="px-2 py-1 font-semibold text-base">{item.label}</span>
                 </DropdownMenuItem>
                 {item.subItems.map((subItem) => (
-                  <DropdownMenuItem key={subItem.label} asChild>
-                    <Link to={subItem.href} className="flex items-center gap-2 cursor-pointer">
+                  <DropdownMenuItem className='my-2' key={subItem.label} asChild isActive={location.pathname === subItem.href}>
+                    <Link to={subItem.href} className="flex items-center gap-2 cursor-pointer w-full">
                       {subItem.icon && <subItem.icon className="h-4 w-4" />}
                       <span>{subItem.label}</span>
                     </Link>
@@ -127,7 +127,7 @@ export function SiteSidebar({ menuItems }) {
                   isActive={isActive}
                   tooltip={item.label}
                 >
-                  <div className=" w-full flex items-center gap-3">
+                  <div className="flex items-center gap-3">
                     {item.icon && <item.icon className="h-5 w-5" />}
                     <span className="truncate group-data-[collapsible=icon]:hidden">{item.label}</span>
                   </div>
@@ -159,7 +159,7 @@ export function SiteSidebar({ menuItems }) {
           <div className="relative">
             <SidebarMenuButton asChild isActive={isActive} tooltip={item.label}>
               <Link to={item.href}>
-                {item.icon && <item.icon className="h-6 w-6 group-data-[collapsible=icon]:h-6 group-data-[collapsible=icon]:w-5" />}
+                {item.icon && <item.icon className="h-4 w-4 group-data-[collapsible=icon]:h-6 group-data-[collapsible=icon]:w-5" />}
                 <span className="truncate group-data-[collapsible=icon]:hidden">{item.label}</span>
               </Link>
             </SidebarMenuButton>
@@ -171,7 +171,7 @@ export function SiteSidebar({ menuItems }) {
   };
 
   return (
-    <Sidebar collapsible="icon" className=' text-white'>
+    <Sidebar collapsible="icon">
       <SidebarHeader>
         <div className="flex items-center gap-2">
           <Fingerprint className="h-7 w-7 text-primary" />
@@ -198,7 +198,7 @@ export function SiteSidebar({ menuItems }) {
       </SidebarContent>
       <SidebarFooter>
         {mounted && (
-          <div className="flex items-center gap-2 group-data-[collapsible=icon]:flex-col" onClick={toggleTheme}>
+          <div className="flex items-center gap-2 group-data-[collapsible=icon]:flex-col cursor-pointer" onClick={toggleTheme}>
             <Button
               variant="outline"
               size="icon"
@@ -208,7 +208,7 @@ export function SiteSidebar({ menuItems }) {
               <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-foreground" />
               <span className="sr-only">Toggle theme</span>
             </Button>
-            <div className="group-data-[collapsible=icon]:hidden text-sm text-white cursor-pointer">
+            <div className="group-data-[collapsible=icon]:hidden text-sm text-sidebar-primary-foreground">
               {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
             </div>
           </div>

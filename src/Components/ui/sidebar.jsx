@@ -308,7 +308,7 @@ const SidebarHeader = React.forwardRef(({ className, ...props }, ref) => {
     <div
       ref={ref}
       data-sidebar="header"
-      className={cn("flex flex-col gap-2 p-4", className)}
+      className={cn("flex flex-col gap-2 p-4 text-white", className)}
       {...props}
     />
   )
@@ -374,7 +374,7 @@ const SidebarGroupLabel = React.forwardRef(({ className, asChild = false, ...pro
       ref={ref}
       data-sidebar="group-label"
       className={cn(
-        "duration-200 flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-primary-foreground/70 outline-none ring-sidebar-ring transition-[margin,opa] ease-in-out focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
+        "duration-200 flex h-8 shrink-0 items-center rounded-md px-2 text-sm font-medium text-sidebar-primary-foreground/70 outline-none ring-sidebar-ring transition-[margin,opa] ease-in-out focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
         "group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0",
         className
       )}
@@ -444,7 +444,7 @@ const sidebarMenuButtonVariants = cva(
       },
       size: {
         default: "h-10 text-sm",
-        sm: "h-9 text-xs",
+        sm: "h-9 text-sm",
         lg: "h-12 text-base group-data-[collapsible=icon]:!p-0",
       },
     },
@@ -536,7 +536,7 @@ const SidebarMenuBadge = React.forwardRef(({ className, ...props }, ref) => (
     ref={ref}
     data-sidebar="menu-badge"
     className={cn(
-      "absolute right-1 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums text-sidebar-foreground select-none pointer-events-none",
+      "absolute right-1 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-sm font-medium tabular-nums text-sidebar-foreground select-none pointer-events-none",
       "peer-hover/menu-button:text-sidebar-accent-foreground peer-data-[active=true]/menu-button:text-sidebar-accent-foreground",
       "peer-data-[size=sm]/menu-button:top-1",
       "peer-data-[size=default]/menu-button:top-1.5",
@@ -613,7 +613,7 @@ const SidebarMenuSubButton = React.forwardRef(
         className={cn(
           "flex h-8 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-3 text-sidebar-foreground/80 outline-none ring-sidebar-ring transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
           "data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium text-white",
-          size === "sm" && "text-xs",
+          size === "sm" && "text-sm",
           size === "md" && "text-sm",
           className
         )}
