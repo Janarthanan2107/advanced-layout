@@ -120,7 +120,7 @@ const SidebarProvider = React.forwardRef(
 )
 SidebarProvider.displayName = "SidebarProvider"
 
-export const Slot = React.forwardRef(function Slot({ children, ...props }, ref) {
+const Slot = React.forwardRef(function Slot({ children, ...props }, ref) {
   if (!React.isValidElement(children)) {
     return null
   }
@@ -374,7 +374,7 @@ const SidebarGroupLabel = React.forwardRef(({ className, asChild = false, ...pro
       ref={ref}
       data-sidebar="group-label"
       className={cn(
-        "duration-200 flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-foreground/70 outline-none ring-sidebar-ring transition-[margin,opa] ease-in-out focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
+        "duration-200 flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-primary-foreground/70 outline-none ring-sidebar-ring transition-[margin,opa] ease-in-out focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
         "group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0",
         className
       )}
@@ -477,7 +477,7 @@ const SidebarMenuButton = React.forwardRef(
         data-sidebar="menu-button"
         data-size={size}
         data-active={isActive}
-        className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
+        className={cn(sidebarMenuButtonVariants({ variant, size }), className, 'text-white')}
         {...props}
       />
     )
@@ -612,7 +612,7 @@ const SidebarMenuSubButton = React.forwardRef(
         data-active={isActive}
         className={cn(
           "flex h-8 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-3 text-sidebar-foreground/80 outline-none ring-sidebar-ring transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
-          "data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground data-[active=true]:font-medium",
+          "data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium text-white",
           size === "sm" && "text-xs",
           size === "md" && "text-sm",
           className
@@ -625,6 +625,7 @@ const SidebarMenuSubButton = React.forwardRef(
 SidebarMenuSubButton.displayName = "SidebarMenuSubButton"
 
 export {
+  Slot,
   Sidebar,
   SidebarContent,
   SidebarFooter,
