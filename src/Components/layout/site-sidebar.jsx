@@ -174,10 +174,8 @@ export function SiteSidebar({ menuItems }) {
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <div className="flex items-center gap-2">
-          <Fingerprint className="h-7 w-7 text-primary" />
-          <span className="font-semibold text-xl group-data-[collapsible=icon]:hidden">
-            HrBuddie
-          </span>
+          <Fingerprint className="h-7 w-7 text-primary hidden group-data-[collapsible=icon]:block" />
+          <img src="https://app.hrbuddie.com/static/media/appLogo.51cb590670f1ac176e12700077e30ee8.svg" alt="" srcset="" className=' w-36 group-data-[collapsible=icon]:hidden' />
         </div>
       </SidebarHeader>
       <SidebarContent>
